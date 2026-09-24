@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>德國趴趴走-8日行程</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Microsoft JhengHei", "微軟正黑體", "PingFang TC", Arial, sans-serif;
+            background: #f0f2f7;
+            color: #333;
+        }
+
+        /* ── Header ───────────────────────────────── */
+        .site-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 48px 24px 40px;
+            text-align: center;
+        }
+        .site-header h1 { font-size: 2.4em; letter-spacing: .04em; margin-bottom: 10px; }
+        .site-header .subtitle { font-size: 1.05em; opacity: .92; margin-bottom: 6px; }
+        .site-header .cities { font-size: .9em; opacity: .78; }
+
+        /* ── Sticky nav ────────────────────────────── */
+        .nav-container {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,.10);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-tabs {
+            display: flex;
+            max-width: 960px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        .nav-tab {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: .95em;
+            font-family: inherit;
+            color: #666;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all .2s;
+            min-width: 120px;
+        }
+        .nav-tab:hover { color: #667eea; background: #fafafe; }
+        .nav-tab.active { color: #667eea; border-bottom-color: #667eea; font-weight: bold; }
+
+        /* ── Layout ────────────────────────────────── */
+        .page-content { padding: 0; }
+        .container { max-width: 960px; margin: 0 auto; padding: 32px 20px 48px; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .section-title {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+        }
+
+        /* ── Day cards (overview) ───────────────────── */
+        .day-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 2px 14px rgba(0,0,0,.07);
+            margin-bottom: 18px;
+            overflow: hidden;
+            display: flex;
+            transition: box-shadow .2s;
+        }
+        .day-card:hover { box-shadow: 0 4px 20px rgba(102,126,234,.18); }
+        .day-label {
+            background: linear-gradient(160deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 88px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .day-num  { font-size: 1.45em; font-weight: bold; line-height: 1.1; }
+        .day-date { font-size: .78em; opacity: .88; margin-top: 5px; }
+        .day-body { padding: 20px 24px; flex: 1; }
+        .day-city { font-size: 1.1em; font-weight: bold; color: #333; margin-bottom: 3px; }
+        .day-subtitle { font-size: .85em; color: #888; margin-bottom: 10px; }
+        .day-activities { list-style: none; }
+        .day-activities li { padding: 3px 0; color: #555; font-size: .93em; line-height: 1.6; }
+        .day-activities li::before { content: "▸ "; color: #667eea; }
+
+        /* ── City section ───────────────────────────── */
+        .city-section { margin-bottom: 44px; }
+        .city-section > h2 {
+            font-size: 1.35em;
+            color: #333;
+            padding: 12px 0 12px 16px;
+            border-left: 5px solid #667eea;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #f0f2ff, transparent);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* ── Attraction card ────────────────────────── */
+        .attraction-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 2px 14px rgba(0,0,0,.07);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .attraction-card img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .attraction-card h3 { font-size: 1.15em; color: #333; margin-bottom: 12px; }
+        .attraction-card p  { color: #555; line-height: 1.75; margin-bottom: 12px; font-size: .95em; }
+
+        /* ── Attractions tab: responsive two-column layout ── */
+        #attractions .attraction-card {
+            display: flex;
+            flex-direction: column;
+        }
+        #attractions .card-img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            flex-shrink: 0;
+            display: block;
+        }
+        #attractions .card-body { flex: 1; min-width: 0; }
+        #attractions .card-body h3 { margin-top: 0; }
+        #attractions .card-body > *:last-child { margin-bottom: 0; }
+
+        @media (min-width: 680px) {
+            #attractions .attraction-card:has(.card-img) {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 22px;
+            }
+            #attractions .card-img {
+                width: 240px;
+                height: 200px;
+                margin-bottom: 0;
+            }
+        }
+        @media (min-width: 860px) {
+            #attractions .card-img {
+                width: 280px;
+                height: 220px;
+            }
+        }
+
+        /* ── Highlight / Tips ───────────────────────── */
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-top: 14px;
+        }
+        .highlight-box h5 { color: #667eea; margin-bottom: 8px; font-size: .95em; }
+        .highlight-box p  { margin: 0; color: #444; line-height: 1.75; font-size: .92em; }
+
+        .tips-box {
+            background: #fffbee;
+            border-left: 4px solid #f5a623;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-top: 14px;
+        }
+        .tips-box h5 { color: #c87000; margin-bottom: 8px; font-size: .95em; }
+        .tips-box p  { margin: 0; color: #444; line-height: 1.75; font-size: .92em; }
+
+        /* ── Video ──────────────────────────────────── */
+        .video-frame { width: 100%; height: 420px; border: none; border-radius: 10px; }
+
+        /* ── Photo grid ─────────────────────────────── */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .photo-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            display: block;
+        }
+        .photo-thumb:hover { transform: scale(1.04); box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+        .photo-placeholder {
+            aspect-ratio: 1;
+            background: #e8eaf0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: .8em;
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* ── Route timeline (map tab) ──────────────── */
+        .route-timeline { position: relative; padding-left: 36px; }
+        .route-timeline::before {
+            content: "";
+            position: absolute;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        .route-stop {
+            position: relative;
+            padding: 0 0 24px 20px;
+        }
+        .route-stop.last { padding-bottom: 0; }
+        .route-dot {
+            position: absolute;
+            left: -25px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+        .route-dot.flight  { background: #667eea; }
+        .route-dot.train   { background: #42a5f5; }
+        .route-dot.city    { background: #764ba2; }
+        .route-info { display: flex; flex-direction: column; gap: 2px; }
+        .route-date { font-size: .78em; color: #667eea; font-weight: bold; }
+        .route-city { font-size: .98em; font-weight: bold; color: #333; }
+        .route-note { font-size: .85em; color: #777; }
+
+        /* ── Lightbox ───────────────────────────────── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.92);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox-content { position: relative; max-width: 92vw; max-height: 92vh; }
+        .lightbox-img { max-width: 92vw; max-height: 86vh; object-fit: contain; border-radius: 6px; display: block; }
+        .lightbox-close {
+            position: absolute;
+            top: -40px; right: 0;
+            color: white;
+            font-size: 2.2em;
+            cursor: pointer;
+            line-height: 1;
+            opacity: .85;
+            transition: opacity .15s;
+        }
+        .lightbox-close:hover { opacity: 1; }
+        .lightbox-caption { color: rgba(255,255,255,.85); text-align: center; margin-top: 10px; font-size: .88em; }
+
+        /* ── Responsive ─────────────────────────────── */
+        @media (max-width: 600px) {
+            .site-header h1 { font-size: 1.6em; }
+            .day-card { flex-direction: column; }
+            .day-label { flex-direction: row; gap: 14px; min-width: unset; padding: 14px 20px; justify-content: flex-start; }
+            .day-num { font-size: 1.1em; }
+            .video-frame { height: 220px; }
+            .nav-tab { padding: 14px 12px; font-size: .88em; }
+            .container { padding: 24px 14px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <h1>🇩🇪 德國趴趴走</h1>
+        <p class="subtitle">8 日行程　｜　2024 年 10 月 17 日 – 10 月 24 日</p>
+        <p class="cities">愛爾福特 · 德累斯頓 · 薩克森小瑞士 · 麥森 · 紐倫堡 · 慕尼黑 · 楚格峰</p>
+    </header>
+
+    <div class="nav-container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="overview">📅 行程總覽</button>
+            <button class="nav-tab" data-tab="map">🗺️ 旅行地圖</button>
+            <button class="nav-tab" data-tab="history">📖 路線與歷史</button>
+            <button class="nav-tab" data-tab="attractions">🏰 景點介紹</button>
+            <button class="nav-tab" data-tab="videos">🎬 旅行影片</button>
+            <button class="nav-tab" data-tab="photos">📸 旅行照片</button>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="container">
+
+            <div id="overview" class="tab-content active">
+                <h2 class="section-title">📅 8 日行程總覽</h2>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 1</div>
+                        <div class="day-date">10/17 (四)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">✈️ 抵達法蘭克福 → 德累斯頓</div>
+                        <div class="day-subtitle">搭 ICE 高鐵橫越中德，途經愛爾福特</div>
+                        <ul class="day-activities">
+                            <li>🚄 交通：桃園起飛 → 法蘭克福機場抵達；ICE 高鐵 法蘭克福 → 愛爾福特 → 德累斯頓</li>
+                            <li>🏨 住宿：德累斯頓</li>
+                            <li>愛爾福特短暫停留，感受中世紀磚造城市氛圍</li>
+                            <li>抵達德累斯頓，沿易北河畔初探古都夜景</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 2</div>
+                        <div class="day-date">10/18 (五)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">🏛️ 德累斯頓 + 薩克森小瑞士</div>
+                        <div class="day-subtitle">巴洛克古都與砂岩峽谷一日探索</div>
+                        <ul class="day-activities">
+                            <li>🚌 交通：巴士 / 火車前往薩克森小瑞士（車程約 1 小時），當日來回</li>
+                            <li>🏨 住宿：德累斯頓</li>
+                            <li>上午：聖母教堂 Frauenkirche、茨溫格宮 Zwinger、布呂爾平台</li>
+                            <li>下午：薩克森小瑞士國家公園 → 巴斯泰橋 Basteibrücke 健行覽景</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 3</div>
+                        <div class="day-date">10/19 (六)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">🏺 麥森 + 德累斯頓古城</div>
+                        <div class="day-subtitle">千年瓷都與易北河畔的悠閒午後</div>
+                        <ul class="day-activities">
+                            <li>🚆 交通：區間火車 德累斯頓 ↔ 麥森（車程約 40 分鐘）</li>
+                            <li>🏨 住宿：德累斯頓</li>
+                            <li>麥森瓷器工廠 &amp; 博物館，探索歐洲瓷器發源地</li>
+                            <li>阿爾布雷希特城堡 Albrechtsburg 俯瞰易北河谷</li>
+                            <li>傍晚返回德累斯頓，古城夜間散步</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 4</div>
+                        <div class="day-date">10/20 (日)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">🏰 德累斯頓 → 紐倫堡</div>
+                        <div class="day-subtitle">ICE 高鐵南下，踏入中世紀帝國古城</div>
+                        <ul class="day-activities">
+                            <li>🚄 交通：ICE 高鐵 德累斯頓 → 紐倫堡（車程約 2.5 小時）</li>
+                            <li>🏨 住宿：紐倫堡</li>
+                            <li>皇帝堡 Kaiserburg &amp; 舊城區漫遊</li>
+                            <li>市集廣場、聖母教堂外觀、工匠廣場</li>
+                            <li>品嚐傳統薑餅與紐倫堡烤香腸</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 5</div>
+                        <div class="day-date">10/21 (一)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">🏔️ 紐倫堡 → 慕尼黑 → 楚格峰</div>
+                        <div class="day-subtitle">登頂德國最高峰，俯瞰阿爾卑斯山全景</div>
+                        <ul class="day-activities">
+                            <li>🚄 交通：ICE 高鐵 紐倫堡 → 慕尼黑（約 1 小時）；山岳鐵道登楚格峰</li>
+                            <li>🏨 住宿：慕尼黑</li>
+                            <li>楚格峰（2962 m）搭纜車登頂，眺望德奧邊境全景</li>
+                            <li>加爾米施帕滕基興 Garmisch-Partenkirchen 小鎮漫步</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 6</div>
+                        <div class="day-date">10/22 (二)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">🍺 慕尼黑市區</div>
+                        <div class="day-subtitle">巴伐利亞首府的廣場、教堂與啤酒文化</div>
+                        <ul class="day-activities">
+                            <li>🚇 交通：慕尼黑市區步行 / U-Bahn</li>
+                            <li>🏨 住宿：慕尼黑</li>
+                            <li>瑪麗恩廣場 Marienplatz、新市政廳木偶鐘整點表演</li>
+                            <li>穀物市場 Viktualienmarkt、聖彼得教堂、舊市政廳</li>
+                            <li>晚間：皇家啤酒屋 Hofbräuhaus 體驗道地巴伐利亞晚餐</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 7</div>
+                        <div class="day-date">10/23 (三)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">🌿 慕尼黑深度漫遊</div>
+                        <div class="day-subtitle">英式花園、傳統市場與最後的巴伐利亞記憶</div>
+                        <ul class="day-activities">
+                            <li>🚇 交通：慕尼黑市區步行 / U-Bahn</li>
+                            <li>🏨 住宿：慕尼黑</li>
+                            <li>英式花園 Englischer Garten 晨間散步</li>
+                            <li>維克圖阿立恩市場 Viktualienmarkt 採買伴手禮</li>
+                            <li>自由行購物，享用最後一頓巴伐利亞晚餐</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-label">
+                        <div class="day-num">Day 8</div>
+                        <div class="day-date">10/24 (四)</div>
+                    </div>
+                    <div class="day-body">
+                        <div class="day-city">✈️ 慕尼黑 → 台灣桃園</div>
+                        <div class="day-subtitle">告別巴伐利亞，踏上歸途</div>
+                        <ul class="day-activities">
+                            <li>🚌 交通：前往慕尼黑機場搭機 → 桃園國際機場</li>
+                            <li>早餐後退房，前往機場辦理登機手續</li>
+                            <li>結束 8 天德國旅程，滿載美好記憶返台</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="map" class="tab-content">
+                <h2 class="section-title">🗺️ 旅行地圖</h2>
+
+                <div class="attraction-card">
+                    <p style="text-align:center;color:#555;font-size:.95em;margin-bottom:18px;">
+                        2024 年 10 月 17–24 日　｜　法蘭克福 → 德累斯頓 → 紐倫堡 → 慕尼黑
+                    </p>
+                    <div style="overflow:hidden;border-radius:10px;">
+                    <svg viewBox="0 0 580 510" xmlns="http://www.w3.org/2000/svg"
+                         style="width:100%;height:auto;display:block;"
+                         font-family="Microsoft JhengHei,微軟正黑體,Arial,sans-serif">
+
+                      <defs>
+                        <marker id="arr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                          <polygon points="0 0,9 3.5,0 7" fill="#667eea"/>
+                        </marker>
+                        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style="stop-color:#e8eff8"/>
+                          <stop offset="100%" style="stop-color:#ede4f6"/>
+                        </linearGradient>
+                        <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+                          <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.15"/>
+                        </filter>
+                      </defs>
+
+                      <!-- 背景 -->
+                      <rect width="580" height="510" fill="url(#bg)"/>
+
+                      <!-- 德國輪廓（概略多邊形） -->
+                      <path d="M 0,0 L 28,0 L 138,0 L 303,0 L 440,0
+                               L 468,116 L 457,154 L 413,193 L 370,213
+                               L 360,250 L 385,340 L 360,440 L 248,440
+                               L 83,435 L 55,347 L 28,308 L 0,231 L 0,77 Z"
+                            fill="#dce9f2" stroke="#b0c8de" stroke-width="1.5"/>
+
+                      <!-- 阿爾卑斯山提示 -->
+                      <text x="100" y="462" font-size="11" fill="#8faa8f" letter-spacing="3">⛰ 阿爾卑斯山脈 Alps ⛰</text>
+
+                      <!-- 易北河（Elbe）走向提示 -->
+                      <path d="M 370,125 Q 392,158 398,150 Q 374,182 328,222 Q 285,255 225,295"
+                            fill="none" stroke="#a8d4f0" stroke-width="1.8" opacity="0.65"/>
+                      <text x="268" y="302" font-size="9" fill="#80b5d0"
+                            transform="rotate(-35,268,302)">Elbe 易北河</text>
+
+                      <!-- 萊茵河（Rhine）走向提示 -->
+                      <path d="M 77,435 Q 55,360 40,310 Q 18,260 0,220"
+                            fill="none" stroke="#a8d4f0" stroke-width="1.8" opacity="0.65"/>
+                      <text x="22" y="330" font-size="9" fill="#80b5d0"
+                            transform="rotate(-75,22,330)">Rhine 萊茵河</text>
+
+                      <!-- ═══ 主線路（實線 + 箭頭）═══ -->
+                      <!-- 法蘭克福→愛爾福特→德累斯頓→紐倫堡→慕尼黑 -->
+                      <polyline points="120,223 249,156 398,150 252,274 279,375"
+                                fill="none" stroke="#667eea" stroke-width="4.5"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                marker-end="url(#arr)" filter="url(#sh)"/>
+
+                      <!-- ═══ 當日往返（虛線）═══ -->
+                      <!-- 德累斯頓 ↔ 巴斯泰橋 -->
+                      <line x1="398" y1="150" x2="445" y2="158"
+                            stroke="#42a5f5" stroke-width="2.5" stroke-dasharray="6,3" stroke-linecap="round"/>
+                      <!-- 德累斯頓 ↔ 麥森 -->
+                      <line x1="398" y1="150" x2="370" y2="125"
+                            stroke="#42a5f5" stroke-width="2.5" stroke-dasharray="6,3" stroke-linecap="round"/>
+                      <!-- 慕尼黑 ↔ 楚格峰 -->
+                      <line x1="279" y1="375" x2="248" y2="425"
+                            stroke="#42a5f5" stroke-width="2.5" stroke-dasharray="6,3" stroke-linecap="round"/>
+
+                      <!-- ═══ 城市標記 ═══ -->
+                      <!-- 法蘭克福（出發/入境） -->
+                      <circle cx="120" cy="223" r="12" fill="#667eea" stroke="white" stroke-width="2.5" filter="url(#sh)"/>
+                      <text x="120" y="228" text-anchor="middle" fill="white" font-size="13">✈</text>
+
+                      <!-- 愛爾福特（中途停留） -->
+                      <circle cx="249" cy="156" r="7" fill="#9fa8da" stroke="white" stroke-width="2"/>
+
+                      <!-- 德累斯頓（重要城市） -->
+                      <circle cx="398" cy="150" r="12" fill="#667eea" stroke="white" stroke-width="2.5" filter="url(#sh)"/>
+
+                      <!-- 巴斯泰橋（一日遊） -->
+                      <circle cx="445" cy="158" r="6" fill="#42a5f5" stroke="white" stroke-width="2"/>
+
+                      <!-- 麥森（一日遊） -->
+                      <circle cx="370" cy="125" r="6" fill="#42a5f5" stroke="white" stroke-width="2"/>
+
+                      <!-- 紐倫堡 -->
+                      <circle cx="252" cy="274" r="12" fill="#667eea" stroke="white" stroke-width="2.5" filter="url(#sh)"/>
+
+                      <!-- 慕尼黑（回程） -->
+                      <circle cx="279" cy="375" r="12" fill="#667eea" stroke="white" stroke-width="2.5" filter="url(#sh)"/>
+                      <text x="279" y="380" text-anchor="middle" fill="white" font-size="13">✈</text>
+
+                      <!-- 楚格峰（一日遊） -->
+                      <circle cx="248" cy="425" r="7" fill="#42a5f5" stroke="white" stroke-width="2"/>
+                      <text x="248" y="430" text-anchor="middle" fill="white" font-size="9">▲</text>
+
+                      <!-- ═══ 標籤 ═══ -->
+                      <!-- 法蘭克福（右側） -->
+                      <text x="137" y="215" font-size="12" font-weight="bold" fill="#333">法蘭克福</text>
+                      <text x="137" y="227" font-size="10" fill="#667eea">Frankfurt</text>
+                      <text x="137" y="239" font-size="10" fill="#888">10/17 ✈ 入境</text>
+
+                      <!-- 愛爾福特（右上） -->
+                      <text x="258" y="144" font-size="11" font-weight="bold" fill="#555">愛爾福特</text>
+                      <text x="258" y="155" font-size="9" fill="#9fa8da">Erfurt</text>
+                      <text x="258" y="166" font-size="9" fill="#888">10/17 途經</text>
+
+                      <!-- 德累斯頓（左側，避免和巴斯泰橋標籤重疊） -->
+                      <text x="390" y="137" text-anchor="end" font-size="12" font-weight="bold" fill="#333">德累斯頓</text>
+                      <text x="390" y="149" text-anchor="end" font-size="10" fill="#667eea">Dresden</text>
+                      <text x="390" y="161" text-anchor="end" font-size="10" fill="#888">10/17–19</text>
+
+                      <!-- 麥森（左上） -->
+                      <text x="362" y="116" text-anchor="end" font-size="10" font-weight="bold" fill="#42a5f5">麥森 Meissen</text>
+                      <text x="362" y="127" text-anchor="end" font-size="9" fill="#888">10/19</text>
+
+                      <!-- 巴斯泰橋（右側） -->
+                      <text x="455" y="150" font-size="10" font-weight="bold" fill="#42a5f5">巴斯泰橋</text>
+                      <text x="455" y="161" font-size="9" fill="#888">薩克森小瑞士 10/18</text>
+
+                      <!-- 紐倫堡（左側） -->
+                      <text x="177" y="269" font-size="12" font-weight="bold" fill="#333">紐倫堡</text>
+                      <text x="177" y="281" font-size="10" fill="#667eea">Nürnberg</text>
+                      <text x="177" y="293" font-size="10" fill="#888">10/20</text>
+
+                      <!-- 慕尼黑（右側） -->
+                      <text x="296" y="368" font-size="12" font-weight="bold" fill="#333">慕尼黑</text>
+                      <text x="296" y="380" font-size="10" fill="#667eea">München</text>
+                      <text x="296" y="392" font-size="10" fill="#888">10/21–24 ✈ 回程</text>
+
+                      <!-- 楚格峰（左側） -->
+                      <text x="238" y="418" text-anchor="end" font-size="11" font-weight="bold" fill="#42a5f5">楚格峰</text>
+                      <text x="238" y="429" text-anchor="end" font-size="9" fill="#888">Zugspitze 2962m</text>
+                      <text x="238" y="440" text-anchor="end" font-size="9" fill="#888">10/21</text>
+
+                      <!-- ═══ 圖例 ═══ -->
+                      <rect x="8" y="440" width="162" height="66" rx="8"
+                            fill="white" opacity="0.88" stroke="#d0d8e8" stroke-width="1"/>
+                      <text x="89" y="454" text-anchor="middle" font-size="11" font-weight="bold" fill="#444">圖例 Legend</text>
+                      <line x1="16" y1="465" x2="46" y2="465" stroke="#667eea" stroke-width="3.5" stroke-linecap="round"/>
+                      <text x="52" y="469" font-size="10" fill="#444">主要路線（過夜）</text>
+                      <line x1="16" y1="480" x2="46" y2="480" stroke="#42a5f5" stroke-width="2.5"
+                            stroke-dasharray="6,3" stroke-linecap="round"/>
+                      <text x="52" y="484" font-size="10" fill="#444">當日往返</text>
+                      <circle cx="26" cy="497" r="5" fill="#667eea" stroke="white" stroke-width="1.5"/>
+                      <text x="36" y="501" font-size="10" fill="#444">主要城市</text>
+                      <circle cx="104" cy="497" r="4" fill="#42a5f5" stroke="white" stroke-width="1.5"/>
+                      <text x="114" y="501" font-size="10" fill="#444">一日遊</text>
+
+                    </svg>
+                    </div>
+                </div>
+
+                <div class="attraction-card">
+                    <h3 style="margin-bottom:18px;">🚉 交通路線摘要</h3>
+                    <div class="route-timeline">
+
+                        <div class="route-stop">
+                            <div class="route-dot flight"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/17</span>
+                                <span class="route-city">✈️ 台灣桃園 → 法蘭克福</span>
+                                <span class="route-note">長途飛行，抵達後搭 ICE 前往德累斯頓</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop">
+                            <div class="route-dot train"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/17</span>
+                                <span class="route-city">🚄 法蘭克福 → 愛爾福特 → 德累斯頓</span>
+                                <span class="route-note">ICE 高鐵，途經愛爾福特短暫停留</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop">
+                            <div class="route-dot train"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/18</span>
+                                <span class="route-city">🚌 德累斯頓 ↔ 薩克森小瑞士（巴斯泰橋）</span>
+                                <span class="route-note">當日來回，車程約 1 小時</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop">
+                            <div class="route-dot train"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/19</span>
+                                <span class="route-city">🚆 德累斯頓 ↔ 麥森</span>
+                                <span class="route-note">區間火車，車程約 40 分鐘</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop">
+                            <div class="route-dot train"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/20</span>
+                                <span class="route-city">🚄 德累斯頓 → 紐倫堡</span>
+                                <span class="route-note">ICE 高鐵，車程約 2.5 小時</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop">
+                            <div class="route-dot train"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/21</span>
+                                <span class="route-city">🚄 紐倫堡 → 慕尼黑 → 楚格峰</span>
+                                <span class="route-note">ICE 至慕尼黑，再搭山岳鐵道至楚格峰（2962m）</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop">
+                            <div class="route-dot city"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/22–23</span>
+                                <span class="route-city">🏙️ 慕尼黑市區漫遊</span>
+                                <span class="route-note">步行探索老城</span>
+                            </div>
+                        </div>
+
+                        <div class="route-stop last">
+                            <div class="route-dot flight"></div>
+                            <div class="route-info">
+                                <span class="route-date">10/24</span>
+                                <span class="route-city">✈️ 慕尼黑 → 台灣桃園</span>
+                                <span class="route-note">返程，結束 8 天旅程</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="history" class="tab-content">
+                <h2 class="section-title">📖 路線與歷史</h2>
+
+                <div class="city-section">
+                    <h2>✈️ 法蘭克福 Frankfurt am Main</h2>
+                    <div class="attraction-card">
+                        <p>
+                            法蘭克福之名源自「法蘭克人的渡口」（Franconofurt），西元 794 年查理曼大帝在此召開帝國議會，
+                            奠定了城市作為帝國行政核心的地位。此後數百年，神聖羅馬帝國的皇帝選舉與加冕慶典長期在此舉行，
+                            聖巴托羅繆大教堂（Kaiserdom）至今仍見證著那段歷史。
+                        </p>
+                        <p>
+                            文豪歌德（Johann Wolfgang von Goethe）1749 年出生於此，故居現為博物館。
+                            二戰時舊城遭嚴重轟炸，戰後依原貌重建的羅馬廣場（Römerberg）是德國最具代表性的城市廣場之一，
+                            其木構排屋外立面已成法蘭克福的標誌。現代的法蘭克福是歐盟中央銀行所在地，
+                            金融摩天樓群與中世紀廣場並存，形成獨特的城市景觀。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 歷史亮點</h5>
+                            <p>
+                                • 794 年查理曼帝國議會召開地<br>
+                                • 神聖羅馬帝國歷代皇帝加冕慶典舉辦地（1562–1806）<br>
+                                • 文豪歌德出生地，故居保存至今<br>
+                                • 羅馬廣場木構古宅為城市地標，戰後依原貌重建<br>
+                                • 現為歐盟中央銀行（ECB）總部所在城市
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📍 愛爾福特 Erfurt</h2>
+                    <div class="attraction-card">
+                        <p>
+                            愛爾福特建城於西元 742 年，是德國圖林根邦的首府，也是中世紀歐洲最重要的商業城市之一。
+                            城市以貿易菘藍（Woad，一種藍色染料植物）聞名全歐，帶來的財富造就了宏偉的大教堂與密集的橋上商店街。
+                        </p>
+                        <p>
+                            最特別的是，馬丁‧路德（Martin Luther）曾在此就讀大學並進入奧古斯丁修道院，
+                            愛爾福特因此成為宗教改革的重要起點之一。
+                            二戰期間城市相對完好，至今保留了大量中世紀建築原貌，是德國保存最完整的古城之一。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 歷史亮點</h5>
+                            <p>
+                                • 742 年建城，圖林根邦首府<br>
+                                • 馬丁‧路德就讀大學與修道院的城市<br>
+                                • 克雷默橋（Krämerbrücke）是歐洲現存最長、仍有人居住的橋上建築群<br>
+                                • 二戰保存完整，老城街道至今如中世紀般風貌
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📍 德累斯頓 Dresden</h2>
+                    <div class="attraction-card">
+                        <p>
+                            德累斯頓素有「易北河上的佛羅倫斯」之稱，18 世紀薩克森選侯奧古斯特二世廣聚藝術珍品，
+                            使這座城市成為巴洛克建築與藝術的殿堂。茨溫格宮、聖母教堂與森珀歌劇院都是那個黃金年代的產物。
+                        </p>
+                        <p>
+                            1945 年 2 月，盟軍大規模空襲使整座城市陷入火海，教堂在高溫中撐了兩天後倒塌，
+                            廢墟保留了 45 年。兩德統一後，德累斯頓開始漫長的重建工程，
+                            將原本倒塌的石塊一一標記、重新拼回原位，深色的舊石與淺色新石
+                            混合成為「記憶的拼圖」，見證戰爭與和解。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 歷史亮點</h5>
+                            <p>
+                                • 18 世紀薩克森選侯的巴洛克藝術首都<br>
+                                • 1945 年大轟炸——二戰最具爭議的空襲之一<br>
+                                • 聖母教堂重建歷時 13 年（1994–2005），成為和解象徵<br>
+                                • 舊舊石新石交錯的外牆，是城市歷史的最佳縮影
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📍 薩克森小瑞士 Sächsische Schweiz</h2>
+                    <div class="attraction-card">
+                        <p>
+                            薩克森小瑞士是易北河流經德國東部時雕琢出的砂岩峽谷地形，
+                            億萬年的風化與侵蝕造就了層層疊疊的砂岩柱與峽谷。
+                            18 世紀瑞士藝術家因其地形與家鄉相似，稱之為「小瑞士」，名稱由此而來。
+                        </p>
+                        <p>
+                            巴斯泰橋（Basteibrücke）建於 1851 年，是世界上最早的砂岩橋之一，
+                            橫跨在 194 公尺高的峭壁之上，橋下可見綿延無盡的森林與易北河谷。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 地理亮點</h5>
+                            <p>
+                                • 砂岩形成於約 9000 萬年前白堊紀海底<br>
+                                • 巴斯泰橋高度 194 公尺，建於 1851 年<br>
+                                • 此地為德國第一座國家公園（1990 年設立）
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📍 麥森 Meissen</h2>
+                    <div class="attraction-card">
+                        <p>
+                            麥森是薩克森最古老的城市之一，西元 929 年由神聖羅馬帝國皇帝亨利一世建立，
+                            作為德意志向東擴展的要塞。
+                        </p>
+                        <p>
+                            1710 年，奧古斯特二世將煉金術師伯特格爾（Johann Friedrich Böttger）軟禁於阿爾布雷希特城堡，
+                            命其研製黃金。伯特格爾雖未煉出黃金，卻意外發現了硬質瓷器的配方，
+                            麥森從此成為「歐洲白色黃金」的誕生地，瓷器工廠延續至今已逾 300 年。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 歷史亮點</h5>
+                            <p>
+                                • 929 年建城，薩克森最古老城市之一<br>
+                                • 1710 年歐洲第一個成功燒製硬質瓷器的地方<br>
+                                • 麥森瓷器品牌標誌「雙劍」沿用至今<br>
+                                • 阿爾布雷希特城堡是德國最早的哥德式世俗建築之一
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📍 紐倫堡 Nürnberg</h2>
+                    <div class="attraction-card">
+                        <p>
+                            紐倫堡自中世紀起即是神聖羅馬帝國的重要城市，歷代皇帝以此為重要行宮，
+                            皇帝堡也成為帝國權威的象徵。城市以精緻手工藝聞名——玩具、薑餅與香腸都是流傳數百年的名產。
+                        </p>
+                        <p>
+                            二戰期間，紐倫堡因納粹黨在此召開盛大黨代會而聞名於世。
+                            戰後，同盟國選擇在此舉行著名的「紐倫堡審判」（1945–1946），
+                            正式確立了戰爭罪行的國際法律框架。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 歷史亮點</h5>
+                            <p>
+                                • 中世紀神聖羅馬帝國皇帝的行宮所在地<br>
+                                • 納粹黨大會場地（1933–1938）<br>
+                                • 二戰後「紐倫堡審判」奠定現代國際刑法基礎<br>
+                                • 聖誕市集傳統可追溯至 1628 年
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📍 慕尼黑 München ＆ 楚格峰 Zugspitze</h2>
+                    <div class="attraction-card">
+                        <p>
+                            慕尼黑建於 1158 年，是巴伐利亞王國的首府，也是德國第三大城市。
+                            「慕尼黑」之名源自古德語「僧侶之地」（Munichen），反映了城市的修道院起源。
+                            19 世紀巴伐利亞王國在此打造了豐富的博物館與宮殿群，奠定今日文化首都的地位。
+                        </p>
+                        <p>
+                            楚格峰（Zugspitze，2962 公尺）是德國最高峰，位於巴伐利亞阿爾卑斯山脈，
+                            德奧邊境之上。山頂可同時望見德國、奧地利、瑞士與義大利四國風光。
+                            加爾米施帕滕基興（Garmisch-Partenkirchen）小鎮是 1936 年冬季奧運的舉辦地。
+                        </p>
+                        <div class="highlight-box">
+                            <h5>✨ 歷史亮點</h5>
+                            <p>
+                                • 1158 年建城，巴伐利亞首府<br>
+                                • 1923 年希特勒「啤酒館政變」發生於此<br>
+                                • 1972 年夏季奧運主辦城市<br>
+                                • 楚格峰高 2962 公尺，德國最高峰<br>
+                                • 加爾米施為 1936 年冬季奧運場地
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="attractions" class="tab-content">
+                <h2 class="section-title">🏰 景點介紹與特色</h2>
+
+                <!-- ── 法蘭克福 ─────────────────────────── -->
+                <div class="city-section">
+                    <h2>✈️ 法蘭克福 Frankfurt am Main</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/frankfurt.jpg"
+                             alt="法蘭克福羅馬廣場全景" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏛️ 羅馬廣場 Römerberg</h3>
+                            <p>
+                                法蘭克福最古老的中心廣場，中世紀三座山形屋頂市政廳（Römer）是城市的象徵建築。
+                                廣場周邊的木構彩色半木屋雖是戰後依原貌重建，但仍完整還原了中世紀的街道氛圍。
+                                廣場中央的正義女神噴泉（Justitiabrunnen）是必拍地標。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 三棟相連的山形市政廳外觀<br>
+                                    • 廣場周邊彩色木構半木屋排列<br>
+                                    • 正義女神噴泉與石板廣場
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 旅行建議</h5>
+                                <p>
+                                    • 搭乘 ICE 前可步行至羅馬廣場，約 15 分鐘車程<br>
+                                    • 法蘭克福中央車站（Hauptbahnhof）為德鐵重要樞紐，ICE 四通八達
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 愛爾福特 ─────────────────────────── -->
+                <div class="city-section">
+                    <h2>📍 愛爾福特 Erfurt</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/erfurt_dom.jpg"
+                             alt="愛爾福特大教堂俯瞰" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>⛪ 愛爾福特大教堂 &amp; 聖塞維魯教堂</h3>
+                            <p>
+                                愛爾福特大教堂與聖塞維魯教堂並列在高處的台階上，是城市天際線的象徵。
+                                哥德式與羅馬式建築交錯，內部彩繪玻璃與聖壇雕刻都極為精緻。
+                                馬丁‧路德曾在此就讀大學並進入修道院，是宗教改革的重要起點之一。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 教堂前 70 級巨大台階與廣場景觀<br>
+                                    • 中世紀彩繪玻璃與祭壇雕刻<br>
+                                    • 夜間打燈後的教堂剪影
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 小提醒</h5>
+                                <p>
+                                    • 建議黃昏時分造訪，順便欣賞日落與夜景<br>
+                                    • 教堂內多為免費參觀，捐獻箱可自由樂捐
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/kraemerbruck.jpg"
+                             alt="愛爾福特克雷默橋" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🌉 克雷默橋 Krämerbrücke &amp; 舊城區</h3>
+                            <p>
+                                克雷默橋是歐洲少數仍有人居住的「橋上街道」，兩側連棟木構房屋一樓是商店、
+                                二樓以上是住宅，全橋長 79 公尺，現存 32 棟建築。附近舊城區小巷充滿咖啡館與特色小店。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 橋上古老木屋與彩色外牆<br>
+                                    • 手工藝品與特色小店，適合慢逛<br>
+                                    • 河畔視角拍攝整座橋全景
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 德累斯頓 ─────────────────────────── -->
+                <div class="city-section">
+                    <h2>📍 德累斯頓 Dresden</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/frauenkirche.jpg"
+                             alt="德累斯頓聖母教堂" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>⛪ 聖母教堂 Frauenkirche</h3>
+                            <p>
+                                聖母教堂是德累斯頓重生的象徵。1945 年盟軍空襲後廢墟保留了 45 年，
+                                重建時刻意保留舊石塊與新石交錯的外牆，深色舊石與淺色新石形成「記憶的拼圖」。
+                                登頂圓形觀景台可俯瞰整座老城與易北河全景。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 黑白相間的外牆——戰爭與和解的縮影<br>
+                                    • 教堂內部穹頂壁畫與環形空間<br>
+                                    • 圓頂觀景台 360° 老城全景
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/zwinger.jpg"
+                             alt="德累斯頓茨溫格宮" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏛️ 茨溫格宮 Zwinger &amp; 布呂爾平台 Brühlsche Terrasse</h3>
+                            <p>
+                                茨溫格宮是薩克森選侯奧古斯特二世於 18 世紀建造的巴洛克宮殿庭園，
+                                內設古典繪畫陳列館、瓷器收藏館與數學物理沙龍博物館。
+                                布呂爾平台是俯瞰易北河的城市陽台，素有「歐洲陽台」之稱。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 宮殿庭園的噴泉廣場與仙女塔<br>
+                                    • 古典繪畫陳列館（拉斐爾《西斯廷聖母》真跡）<br>
+                                    • 布呂爾平台沿易北河漫步，欣賞城市輪廓
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 薩克森小瑞士 ────────────────────── -->
+                <div class="city-section">
+                    <h2>📍 薩克森小瑞士 &amp; 巴斯泰橋</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/bastei.jpg"
+                             alt="薩克森小瑞士砂岩峽谷" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🌄 巴斯泰橋 Basteibrücke &amp; 薩克森小瑞士國家公園</h3>
+                            <p>
+                                砂岩峭壁間橫跨的石橋，底下是深邃峽谷與蒼鬱森林。
+                                巴斯泰橋建於 1851 年，架設在 194 公尺高的砂岩岩柱之上，
+                                清晨或黃昏時雲霧繚繞，是攝影絕佳地點，也是健行熱門路線。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 巴斯泰橋懸空視角俯瞰峽谷<br>
+                                    • 中世紀巴斯泰岩堡遺跡（Felsenburg Neurathen）<br>
+                                    • 清晨雲霧繚繞的砂岩峰林景觀
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 健行建議</h5>
+                                <p>
+                                    • 步道坡度適中，預留半天時間<br>
+                                    • 建議穿防滑鞋，峭壁邊緣注意安全<br>
+                                    • 從德累斯頓搭 S-Bahn 或巴士，車程約 1 小時
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 麥森 ────────────────────────────── -->
+                <div class="city-section">
+                    <h2>📍 麥森 Meissen</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/meissen_porcelain.jpg"
+                             alt="麥森瓷器精品" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🍽️ 麥森瓷器工廠 &amp; 博物館 Meissen Porcelain</h3>
+                            <p>
+                                麥森是歐洲最早成功燒製硬質瓷器的地方（1710 年），被稱為「白色黃金」。
+                                工廠至今仍以全手工方式生產，博物館展示從成形、上釉到手繪的完整製作流程，
+                                以及橫跨三百年的歷代皇家訂製作品。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 現場觀摩瓷器拉坯、上釉、手繪工序<br>
+                                    • 早期奧古斯特二世王室訂製瓷器展品<br>
+                                    • 品牌標誌「雙劍」的由來說明<br>
+                                    • 伴手禮店可購買小件瓷器紀念品
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/albrechtsburg.jpg"
+                             alt="阿爾布雷希特城堡" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏰 阿爾布雷希特城堡 Albrechtsburg</h3>
+                            <p>
+                                阿爾布雷希特城堡矗立在易北河畔山丘上，是薩克森選侯的宮殿，
+                                也是麥森瓷器最初的生產地點（1710–1863）。
+                                1470 年代動工，被視為德國最早的哥德式世俗宮殿建築之一，俯瞰整個麥森小鎮與易北河谷。
+                            </p>
+                            <div class="tips-box">
+                                <h5>💡 參觀建議</h5>
+                                <p>
+                                    • 預留 1.5–2 小時參觀城堡與內部展示<br>
+                                    • 可搭配麥森瓷器工廠同日安排
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 紐倫堡 ────────────────────────────── -->
+                <div class="city-section">
+                    <h2>📍 紐倫堡 Nürnberg</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/kaiserburg.jpg"
+                             alt="紐倫堡皇帝堡全景" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏰 皇帝堡 Kaiserburg &amp; 舊城區</h3>
+                            <p>
+                                皇帝堡坐落在城市制高點，是德意志皇帝歷代下榻的要塞，也是神聖羅馬帝國權威的象徵。
+                                下方舊城區保留中世紀街道紋理，市集廣場（Hauptmarkt）、
+                                聖母教堂與工匠廣場都是節慶與市集的中心。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 皇帝堡城牆與辛維爾塔（Sinwellturm）觀景台<br>
+                                    • 市集廣場（Hauptmarkt）與美麗噴泉（Schöner Brunnen）<br>
+                                    • 工匠廣場手工藝品市集<br>
+                                    • 傳統薑餅（Lebkuchen）與紐倫堡烤香腸
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 慕尼黑 ────────────────────────────── -->
+                <div class="city-section">
+                    <h2>📍 慕尼黑 München</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/marienplatz.jpg"
+                             alt="慕尼黑瑪麗恩廣場與新市政廳" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏛️ 瑪麗恩廣場 Marienplatz &amp; 新市政廳</h3>
+                            <p>
+                                慕尼黑的心臟廣場，自 1158 年建城以來便是城市核心。新市政廳哥德復興式外觀氣勢恢宏，
+                                每天 11:00 與 12:00 整（夏季加 17:00）鐘琴報時秀中 32 個人偶依序起舞，
+                                敘述巴伐利亞歷史故事。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 鐘琴報時表演（11:00、12:00，夏季加 17:00）<br>
+                                    • 登市政廳塔樓俯瞰全城<br>
+                                    • 廣場周邊步行商店街 Kaufingerstraße
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 旅行建議</h5>
+                                <p>
+                                    • 建議提早 15–20 分鐘卡位，人多遮擋視線<br>
+                                    • 可安排與聖彼得教堂、維克圖阿立恩市場同日路線
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/hofbrauhaus.jpg"
+                             alt="慕尼黑皇家啤酒屋" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🍺 皇家啤酒屋 Hofbräuhaus</h3>
+                            <p>
+                                1589 年由巴伐利亞公爵威廉五世創立，原為宮廷御用釀酒廠。
+                                傳統巴伐利亞音樂、長桌共食文化、1 公升大杯啤酒（Mass）是這裡的標誌，
+                                每年吸引數百萬訪客，是體驗道地啤酒文化的最佳場所。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 大廳可容納千人的長桌共食氛圍<br>
+                                    • 現場巴伐利亞樂隊演奏<br>
+                                    • 1 公升大杯啤酒（Mass）是標準配備
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 用餐建議</h5>
+                                <p>
+                                    • 晚餐時間較多人，建議提早到或避開尖峰<br>
+                                    • 推薦點傳統豬腳或香腸拼盤搭配啤酒<br>
+                                    • 留意酒精濃度與回程交通時間
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/englischer_garten.jpg"
+                             alt="英式花園鳥瞰" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🌿 英式花園 Englischer Garten</h3>
+                            <p>
+                                面積約 3.7 平方公里，比紐約中央公園還大，是世界上最大的城市公園之一。
+                                18 世紀末由拉姆福德伯爵規劃，採自然蜿蜒式英式景觀。
+                                公園內的伊薩爾河（Eisbach）駐波是慕尼黑奇景——不論晴雨，
+                                當地衝浪客在橋下的駐波上演出，已成城市的非官方符號。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 伊薩爾河駐波衝浪奇景（Eisbach Surfer）<br>
+                                    • 日式茶屋（Japanisches Teehaus）與月亮湖<br>
+                                    • 中式塔（Chinesischer Turm）旁露天啤酒花園
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/viktualienmarkt.jpg"
+                             alt="慕尼黑維克圖阿立恩市場" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🥩 維克圖阿立恩市場 Viktualienmarkt</h3>
+                            <p>
+                                慕尼黑最古老的傳統市場，自 1807 年起每天開市（週日除外）。
+                                生鮮蔬果、起司、香腸、麵包與花卉應有盡有，
+                                中央露天啤酒花園是享用白香腸早餐與休憩的好地方。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 五月柱（Maibaum）——色彩鮮豔的傳統裝飾柱<br>
+                                    • 各攤位的手工起司與煙燻香腸<br>
+                                    • 中央啤酒花園的白香腸早餐文化
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 旅行建議</h5>
+                                <p>
+                                    • 週六上午人潮最旺，生鮮品項最豐富<br>
+                                    • 與瑪麗恩廣場相鄰，步行 3 分鐘可到達<br>
+                                    • 伴手禮推薦：小包裝香料、蜂蜜或迷你瓷器
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 楚格峰 ────────────────────────────── -->
+                <div class="city-section">
+                    <h2>🏔️ 楚格峰 Zugspitze ＆ 加爾米施 Garmisch-Partenkirchen</h2>
+
+                    <div class="attraction-card">
+                        <img src="images/zugspitze.jpg"
+                             alt="楚格峰峰頂" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏔️ 楚格峰 Zugspitze（2962 m）</h3>
+                            <p>
+                                德國最高峰，海拔 2962 公尺，位於德奧邊境。山頂橫跨兩國，
+                                晴天可同時眺望德國、奧地利、瑞士與義大利四國景色，視野寬達 250 公里。
+                                登頂可搭齒輪山岳鐵道（Zugspitzbahn）或從艾比湖（Eibsee）直達纜車兩種方式。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 山頂金色十字架（Gipfelkreuz）與四國全景<br>
+                                    • 山腰施奈費爾納冰河（北坡殘餘冰河）<br>
+                                    • 山頂德奧邊界線標記<br>
+                                    • 艾比湖（Eibsee）碧綠湖景
+                                </p>
+                            </div>
+                            <div class="tips-box">
+                                <h5>💡 旅行建議</h5>
+                                <p>
+                                    • 山頂氣溫比山下低約 15–20°C，務必攜帶厚外套<br>
+                                    • 建議上午出發，下午可能起霧影響視野<br>
+                                    • 慕尼黑出發：ICE / S-Bahn 至加爾米施（約 1.5 小時）再轉山岳鐵道
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attraction-card">
+                        <img src="images/garmisch.jpg"
+                             alt="加爾米施帕滕基興小鎮" class="card-img" loading="lazy">
+                        <div class="card-body">
+                            <h3>🏘️ 加爾米施帕滕基興 Garmisch-Partenkirchen</h3>
+                            <p>
+                                這座巴伐利亞小鎮因 1936 年冬季奧林匹克運動會而合併為一。
+                                舊奧運會場遺址至今仍在，每年冬天有世界杯滑雪賽事在此舉行。
+                                小鎮建築保有典型的「呂夫特爾彩畫」（Lüftlmalerei）傳統，房屋外牆彩繪宗教與日常場景。
+                            </p>
+                            <div class="highlight-box">
+                                <h5>✨ 必看亮點</h5>
+                                <p>
+                                    • 舊城區彩繪外牆木屋（Lüftlmalerei）<br>
+                                    • 1936 年冬奧會場遺址<br>
+                                    • 帕滕基興舊城的中世紀街道<br>
+                                    • 四周山景健行步道
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align:center;font-size:.78em;color:#aaa;margin-top:8px;">
+                    景點圖片來源：Wikimedia Commons（CC 授權，各作者所有）
+                </p>
+            </div>
+
+            <div id="videos" class="tab-content">
+                <h2 style="text-align:center;color:#667eea;margin-bottom:30px;">🎬 旅行影片</h2>
+
+                <div class="city-section">
+                    <h2>📅 10/17　法蘭克福坐高鐵 → 愛爾福特 → 德勒斯登</h2>
+                    <div class="attraction-card">
+                        <iframe class="video-frame" src="https://www.youtube.com/embed/X3Iw373H0aw" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/18　德累斯頓 → 薩克森小瑞士 → 德累斯頓古城</h2>
+                    <div class="attraction-card">
+                        <iframe class="video-frame" src="https://www.youtube.com/embed/UiggvaCNaqw" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/19　德累斯頓 → 麥森 → 德累斯頓古城</h2>
+                    <div class="attraction-card">
+                        <iframe class="video-frame" src="https://www.youtube.com/embed/WK9FcyRZ_wI" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/20　紐倫堡</h2>
+                    <div class="attraction-card">
+                        <iframe class="video-frame" src="https://www.youtube.com/embed/evHIDBc-uW4" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/21　楚格峰 · 加爾米施小鎮</h2>
+                    <div class="attraction-card">
+                        <iframe class="video-frame" src="https://www.youtube.com/embed/0ftMizRm6_0" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/22　慕尼黑 · 瑪麗恩廣場 · 穀物市場 · 聖彼得教堂 · 新市政廳 · 舊市政廳 · 木偶鐘 · 皇家啤酒屋</h2>
+                    <div class="attraction-card">
+                        <iframe class="video-frame" src="https://www.youtube.com/embed/0qHULPa7_x8" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div id="photos" class="tab-content">
+                <h2 style="text-align:center;color:#667eea;margin-bottom:30px;">📸 旅行照片集</h2>
+
+                <div class="city-section">
+                    <h2>📅 10/17 愛爾福特</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <img src="photos/10-17-01.jpg" alt="10/17 - 照片 01" class="photo-thumb" onclick="openLightbox(this.src, this.alt)">
+                            <img src="photos/10-17-02.jpg" alt="10/17 - 照片 02" class="photo-thumb" onclick="openLightbox(this.src, this.alt)">
+                            <img src="photos/10-17-03.jpg" alt="10/17 - 照片 03" class="photo-thumb" onclick="openLightbox(this.src, this.alt)">
+                            <img src="photos/10-17-04.jpg" alt="10/17 - 照片 04" class="photo-thumb" onclick="openLightbox(this.src, this.alt)">
+                            <img src="photos/10-17-05.jpg" alt="10/17 - 照片 05" class="photo-thumb" onclick="openLightbox(this.src, this.alt)">
+                            <div class="photo-placeholder">10/17 - 照片 06</div>
+                            <div class="photo-placeholder">10/17 - 照片 07</div>
+                            <div class="photo-placeholder">10/17 - 照片 08</div>
+                            <div class="photo-placeholder">10/17 - 照片 09</div>
+                            <div class="photo-placeholder">10/17 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/18 德累斯頓 & 薩克森小瑞士</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/18 - 照片 01</div>
+                            <div class="photo-placeholder">10/18 - 照片 02</div>
+                            <div class="photo-placeholder">10/18 - 照片 03</div>
+                            <div class="photo-placeholder">10/18 - 照片 04</div>
+                            <div class="photo-placeholder">10/18 - 照片 05</div>
+                            <div class="photo-placeholder">10/18 - 照片 06</div>
+                            <div class="photo-placeholder">10/18 - 照片 07</div>
+                            <div class="photo-placeholder">10/18 - 照片 08</div>
+                            <div class="photo-placeholder">10/18 - 照片 09</div>
+                            <div class="photo-placeholder">10/18 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/19 麥森 & 德累斯頓</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/19 - 照片 01</div>
+                            <div class="photo-placeholder">10/19 - 照片 02</div>
+                            <div class="photo-placeholder">10/19 - 照片 03</div>
+                            <div class="photo-placeholder">10/19 - 照片 04</div>
+                            <div class="photo-placeholder">10/19 - 照片 05</div>
+                            <div class="photo-placeholder">10/19 - 照片 06</div>
+                            <div class="photo-placeholder">10/19 - 照片 07</div>
+                            <div class="photo-placeholder">10/19 - 照片 08</div>
+                            <div class="photo-placeholder">10/19 - 照片 09</div>
+                            <div class="photo-placeholder">10/19 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/20 紐倫堡</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/20 - 照片 01</div>
+                            <div class="photo-placeholder">10/20 - 照片 02</div>
+                            <div class="photo-placeholder">10/20 - 照片 03</div>
+                            <div class="photo-placeholder">10/20 - 照片 04</div>
+                            <div class="photo-placeholder">10/20 - 照片 05</div>
+                            <div class="photo-placeholder">10/20 - 照片 06</div>
+                            <div class="photo-placeholder">10/20 - 照片 07</div>
+                            <div class="photo-placeholder">10/20 - 照片 08</div>
+                            <div class="photo-placeholder">10/20 - 照片 09</div>
+                            <div class="photo-placeholder">10/20 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/21 楚格峰 & 加爾米施</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/21 - 照片 01</div>
+                            <div class="photo-placeholder">10/21 - 照片 02</div>
+                            <div class="photo-placeholder">10/21 - 照片 03</div>
+                            <div class="photo-placeholder">10/21 - 照片 04</div>
+                            <div class="photo-placeholder">10/21 - 照片 05</div>
+                            <div class="photo-placeholder">10/21 - 照片 06</div>
+                            <div class="photo-placeholder">10/21 - 照片 07</div>
+                            <div class="photo-placeholder">10/21 - 照片 08</div>
+                            <div class="photo-placeholder">10/21 - 照片 09</div>
+                            <div class="photo-placeholder">10/21 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/22 慕尼黑市區</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/22 - 照片 01</div>
+                            <div class="photo-placeholder">10/22 - 照片 02</div>
+                            <div class="photo-placeholder">10/22 - 照片 03</div>
+                            <div class="photo-placeholder">10/22 - 照片 04</div>
+                            <div class="photo-placeholder">10/22 - 照片 05</div>
+                            <div class="photo-placeholder">10/22 - 照片 06</div>
+                            <div class="photo-placeholder">10/22 - 照片 07</div>
+                            <div class="photo-placeholder">10/22 - 照片 08</div>
+                            <div class="photo-placeholder">10/22 - 照片 09</div>
+                            <div class="photo-placeholder">10/22 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/23 慕尼黑市區</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/23 - 照片 01</div>
+                            <div class="photo-placeholder">10/23 - 照片 02</div>
+                            <div class="photo-placeholder">10/23 - 照片 03</div>
+                            <div class="photo-placeholder">10/23 - 照片 04</div>
+                            <div class="photo-placeholder">10/23 - 照片 05</div>
+                            <div class="photo-placeholder">10/23 - 照片 06</div>
+                            <div class="photo-placeholder">10/23 - 照片 07</div>
+                            <div class="photo-placeholder">10/23 - 照片 08</div>
+                            <div class="photo-placeholder">10/23 - 照片 09</div>
+                            <div class="photo-placeholder">10/23 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-section">
+                    <h2>📅 10/24 回程</h2>
+                    <div class="attraction-card">
+                        <div class="photo-grid">
+                            <div class="photo-placeholder">10/24 - 照片 01</div>
+                            <div class="photo-placeholder">10/24 - 照片 02</div>
+                            <div class="photo-placeholder">10/24 - 照片 03</div>
+                            <div class="photo-placeholder">10/24 - 照片 04</div>
+                            <div class="photo-placeholder">10/24 - 照片 05</div>
+                            <div class="photo-placeholder">10/24 - 照片 06</div>
+                            <div class="photo-placeholder">10/24 - 照片 07</div>
+                            <div class="photo-placeholder">10/24 - 照片 08</div>
+                            <div class="photo-placeholder">10/24 - 照片 09</div>
+                            <div class="photo-placeholder">10/24 - 照片 10</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox" onclick="backgroundClick(event)">
+        <div class="lightbox-content">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <img id="lightbox-img" class="lightbox-img" src="" alt="">
+            <div id="lightbox-caption" class="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabs = document.querySelectorAll(".nav-tab");
+            const contents = document.querySelectorAll(".tab-content");
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    tabs.forEach(t => t.classList.remove("active"));
+                    contents.forEach(c => c.classList.remove("active"));
+
+                    tab.classList.add("active");
+                    const targetId = tab.dataset.tab;
+                    document.getElementById(targetId).classList.add("active");
+                });
+            });
+        });
+
+        function openLightbox(src, altText) {
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+
+            img.src = src;
+            img.alt = altText || '';
+            caption.textContent = altText || '';
+
+            lb.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('active');
+        }
+
+        function backgroundClick(event) {
+            if (event.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        }
+    </script>
+</body>
+</html>
